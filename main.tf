@@ -68,7 +68,7 @@ resource "aws_lambda_function" "this" {
 
     content {
       subnet_ids         = vpc_config.value["subnet_ids"]
-      security_group_ids = [for this_sg in aws_security_group.this : this_sg.id]
+      security_group_ids = concat([for this_sg in aws_security_group.this : this_sg.id], vpc_config.value["security_group_ids"])
     }
   }
 

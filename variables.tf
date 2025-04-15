@@ -102,8 +102,9 @@ variable "specification" {
     }))))
 
     vpc_config = optional(object({
-      subnet_ids = optional(list(string), []),
-      vpc_id     = optional(list(string), [])
+      subnet_ids         = optional(list(string), []),
+      security_group_ids = optional(list(string), []),
+      vpc_id             = optional(list(string), [])
     }), {})
   })
 
