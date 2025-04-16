@@ -7,3 +7,5 @@ Helper module for the [API Lambda App module](https://github.com/guidion-digital
 # Usage
 
 See [examples folder](./examples).
+
+FOO
