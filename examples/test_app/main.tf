@@ -9,7 +9,7 @@ resource "aws_iam_role" "test_app" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service = "lambda.amazonaws.com"
         }
       },
     ]
@@ -90,4 +90,8 @@ module "helper_lambda" {
 
 output "paths_spec" {
   value = module.helper_lambda.paths_spec
+}
+
+output "all" {
+  value = module.helper_lambda
 }

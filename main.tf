@@ -45,6 +45,7 @@ resource "aws_vpc_security_group_ingress_rule" "ingress" {
 resource "aws_lambda_function" "this" {
   depends_on = [data.archive_file.this]
 
+  publish                        = var.specification.publish_version
   filename                       = "${path.module}/${var.name}.zip"
   function_name                  = lookup(var.specification, "function_name")
   role                           = lookup(var.specification, "role_arn")
