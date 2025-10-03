@@ -15,7 +15,7 @@ output "lambda_qualified_arn" {
 }
 
 output "lambda_invoke_arn" {
-  value = aws_lambda_function.this.invoke_arn
+  value = var.specification.publish_version ? one(aws_lambda_alias.live).invoke_arn : aws_lambda_function.this.invoke_arn
 }
 
 output "lambda_qualified_invoke_arn" {
