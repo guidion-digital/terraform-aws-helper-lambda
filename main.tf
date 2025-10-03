@@ -79,7 +79,7 @@ resource "aws_lambda_function" "this" {
 resource "aws_lambda_alias" "live" {
   count = var.specification.publish_version ? 1 : 0
 
-  name             = "live"
+  name             = var.specification.latest_version_alias
   description      = "Live version of the function"
   function_name    = aws_lambda_function.this.function_name
   function_version = aws_lambda_function.this.version
