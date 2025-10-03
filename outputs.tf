@@ -91,7 +91,7 @@ locals {
           type       = this_method_config.integration.type
           httpMethod = this_method_config.http_method == null ? "POST" : null
           passthroughBehavior : "when_no_match",
-          uri = this_method_config.integration.type != "mock" ? (var.specification.publish_version ? aws_lambda_function.this.qualified_invoke_arn : aws_lambda_function.this.invoke_arn) : null
+          uri = this_method_config.integration.type != "mock" ? (var.specification.publish_version ? one(aws_lambda_alias.live).invoke_arn : aws_lambda_function.this.invoke_arn) : null
 
           # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-integration-responses.html
           #

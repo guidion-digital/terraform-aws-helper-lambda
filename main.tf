@@ -75,3 +75,12 @@ resource "aws_lambda_function" "this" {
 
   tags = var.tags
 }
+
+resource "aws_lambda_alias" "live" {
+  count = var.specification.publish_version ? 1 : 0
+
+  name             = "live"
+  description      = "Live version of the function"
+  function_name    = aws_lambda_function.this.function_name
+  function_version = aws_lambda_function.this.version
+}
