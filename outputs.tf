@@ -18,6 +18,11 @@ output "lambda_invoke_arn" {
   value = var.specification.publish_version ? one(aws_lambda_alias.live).invoke_arn : aws_lambda_function.this.invoke_arn
 }
 
+output "lambda_arn_for_permission" {
+  description = "ARN to use for Lambda permissions (alias ARN when versioned, function ARN otherwise)"
+  value       = var.specification.publish_version ? one(aws_lambda_alias.live).arn : aws_lambda_function.this.arn
+}
+
 output "lambda_qualified_invoke_arn" {
   value = aws_lambda_function.this.qualified_invoke_arn
 }
