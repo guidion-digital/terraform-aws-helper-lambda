@@ -1,13 +1,6 @@
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
-data "archive_file" "this" {
-  type        = "zip"
-  source_dir  = var.specification.source_dir
-  excludes    = ["${path.module}/terraform"]
-  output_path = "${path.module}/${var.name}.zip"
-}
-
 ### Resources
 
 resource "aws_security_group" "this" {
@@ -42,9 +35,14 @@ resource "aws_vpc_security_group_ingress_rule" "ingress" {
   tags              = var.tags
 }
 
-resource "aws_lambda_function" "this" {
-  depends_on = [data.archive_file.this]
+data "archive_file" "this" {
+  type        = "zip"
+  source_dir  = var.specification.source_dir
+  excludes    = ["${path.module}/terraform"]
+  output_path = "${path.module}/${var.name}.zip"
+}
 
+resource "aws_lambda_function" "this" {
   publish                        = var.specification.publish_version
   filename                       = "${path.module}/${var.name}.zip"
   function_name                  = lookup(var.specification, "function_name")
@@ -57,7 +55,7 @@ resource "aws_lambda_function" "this" {
   timeout                        = var.specification.timeout
 
   dynamic "environment" {
-    for_each = var.specification.environment == {} ? [] : [var.specification.environment]
+    for_each = var.specification.environment != null && length(var.specification.environment) > 0 ? [var.specification.environment] : []
 
     content {
       variables = environment.value
