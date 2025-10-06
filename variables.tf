@@ -10,6 +10,8 @@ variable "specification" {
   description = "Map describing Lambda to API relations"
 
   type = object({
+    publish_version                = optional(bool, true),
+    latest_version_alias           = optional(string, "live"),
     runtime                        = string,
     source_dir                     = string,
     function_name                  = string,

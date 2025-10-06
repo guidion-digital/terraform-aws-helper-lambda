@@ -10,6 +10,23 @@ output "lambda_function_name" {
   value = aws_lambda_function.this.function_name
 }
 
+output "lambda_qualified_arn" {
+  value = aws_lambda_function.this.qualified_arn
+}
+
+output "lambda_invoke_arn" {
+  value = var.specification.publish_version ? one(aws_lambda_alias.live).invoke_arn : aws_lambda_function.this.invoke_arn
+}
+
+output "lambda_arn_for_permission" {
+  description = "ARN to use for Lambda permissions (alias ARN when versioned, function ARN otherwise)"
+  value       = var.specification.publish_version ? one(aws_lambda_alias.live).arn : aws_lambda_function.this.arn
+}
+
+output "lambda_qualified_invoke_arn" {
+  value = aws_lambda_function.this.qualified_invoke_arn
+}
+
 output "paths_spec" {
   description = "OpenAPI paths spec for use in the API Gateway resource body"
   value       = local.paths_spec
@@ -79,7 +96,7 @@ locals {
           type       = this_method_config.integration.type
           httpMethod = this_method_config.http_method == null ? "POST" : null
           passthroughBehavior : "when_no_match",
-          uri = this_method_config.integration.type != "mock" ? "arn:aws:apigateway:${data.aws_region.current.name}:lambda:path/2015-03-31/functions/arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${lookup(var.specification, "function_name")}/invocations" : null
+          uri = this_method_config.integration.type != "mock" ? (var.specification.publish_version ? one(aws_lambda_alias.live).invoke_arn : aws_lambda_function.this.invoke_arn) : null
 
           # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-integration-responses.html
           #
