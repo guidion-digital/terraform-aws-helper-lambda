@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests-apply:
-    uses: guidion-digital/terrappy/.github/workflows/tfc-test-helper-module-apply.yaml@v1
+    uses: guidion-digital/terrappy/.github/workflows/tfc-test-helper-module-apply.yaml@v2
     with:
       environment_name: "localstack"
 
