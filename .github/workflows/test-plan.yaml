@@ -14,7 +14,7 @@ jobs:
 
   tests-plan:
     needs: test-workflow
-    uses: guidion-digital/terrappy/.github/workflows/tfc-test-helper-module-plan.yaml@v1
+    uses: guidion-digital/terrappy/.github/workflows/tfc-test-helper-module-plan.yaml@v2
     permissions:
       contents: read
       pull-requests: read
